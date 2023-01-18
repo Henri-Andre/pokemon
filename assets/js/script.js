@@ -20,8 +20,14 @@ import { colors } from "./fetchpokemons.js";
 
 
 async function showPokemons(pokemons){
+    console.log(pokemons);
+
+    const randomPokemons = pokemons.sort(() => 0.5 - Math.random()).slice(0, 9);
+
     const pokedexElement = document.getElementById('pokedexContainer');
-    pokemons.forEach(pokemon => {
+    randomPokemons.forEach(pokemon => {
+
+
         const articleElement = document.createElement('article');
         const spanElement = document.createElement('span')
         const h2Element = document.createElement('h2');
@@ -35,10 +41,23 @@ async function showPokemons(pokemons){
 
 
         const namePokemon = document.createTextNode(pokemon.name);
-        const typePokemon = document.createTextNode('Type : ' + pokemon.apiTypes[0].name);
-        const btn =  document.createTextNode('Statisque');
+        const typePokemon = document.createTextNode('Type : ' +             
+        pokemon.apiTypes[0].name);
+        
+        const btn =  document.createTextNode('Statistique');
 
-        const colorElement = pokemon.apiTypes[0].name
+        const colorElement = pokemon.apiTypes[0].name;
+        const type = pokemon.apiTypes[1].name;
+
+        console.log(colorElement);
+        
+        
+
+
+
+
+
+
 
         if (colorElement  === "Feu" ){
 
@@ -78,9 +97,39 @@ async function showPokemons(pokemons){
             }else if ( colorElement === "Ténèbres" ){
                 articleElement.style.background = colors.dark;
                 articleElement.style.color = "#FFF"
-            }        
+                btnElement.style.color="#FFF"
+            } 
+            
+            
+
+
+
+            
+            const ulElement = document.createElement('ul');
+            const liType = document.createElement('li')
+            const imgType = document.createElement('img');
+
+            imgType.setAttribute('src',pokemon.apiTypes[0].image );
+            imgType.style.width = "50px";
+            
+
+            liType.appendChild(imgType);
+            ulElement.appendChild(liType);
+            
+
+
       
-        console.log(typePokemon);
+            btnElement.addEventListener('click', function(){
+                articleElement.removeChild(spanElement);
+                articleElement.removeChild(img);
+                articleElement.removeChild(btnElement);
+
+
+                articleElement.appendChild(ulElement)
+
+                
+                
+            });
 
         
         h2Element.appendChild(namePokemon);
@@ -89,13 +138,23 @@ async function showPokemons(pokemons){
 
         pokedexElement.appendChild(articleElement);
         articleElement.append(h2Element,img,spanElement,btnElement);
+        
+        
 
-       
-
-       
+      
+        
+        
         
     });
     
+
+   
+
+    
+   
+
 }
+
+
 
 getPokemon().then(pokemons => showPokemons(pokemons));
